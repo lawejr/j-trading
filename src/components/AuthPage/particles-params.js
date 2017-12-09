@@ -96,4 +96,4 @@ export default {
     }
   },
   retina_detect: true
-};
+}

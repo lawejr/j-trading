@@ -1,11 +1,14 @@
 import React from 'react'
+import Particles from 'react-particles-js'
 
+import ParticlesParams from './particles-params'
 import './AuthPage.css'
 import logo from './img/logo.svg'
 
 export default function AuthPage () {
   return (
     <main className="AuthPage">
+      <Particles className="particles-bg" params={ParticlesParams} />
       <img
         className="logo"
         src={logo}
