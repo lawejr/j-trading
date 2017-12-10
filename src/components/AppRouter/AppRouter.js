@@ -11,6 +11,7 @@ export class AppRouter extends Component {
     return (
       <Switch>
         <Route path="/login" component={AuthPage} />
+        <Route path="/registration" component={AuthPage} />
         <Route component={NotFoundPage} />
       </Switch>
     )
