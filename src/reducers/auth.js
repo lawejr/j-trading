@@ -1,5 +1,13 @@
-const initialState = { isAuthorized: false }
+import handleActions from 'redux-actions/es/handleActions'
+import { loginSuccess, registrationSuccess, logout } from '../actions/auth'
 
-export default function (state = initialState, action) {
-  return state
-}
+export default handleActions(
+  {
+    [loginSuccess]: () => ({ isAuthorized: true }),
+    [registrationSuccess]: () => ({ isAuthorized: true }),
+    [logout]: () => ({ isAuthorized: false })
+  },
+  { isAuthorized: false }
+)
+
+export const getIsAuthorized = state => state.auth.isAuthorized

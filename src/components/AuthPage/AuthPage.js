@@ -1,23 +1,50 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import Link from 'react-router-dom/Link'
 import Particles from 'react-particles-js'
 
+import { loginRequest, registrationRequest } from '../../actions/auth'
 import ParticlesParams from './particles-params'
 import './AuthPage.css'
 import logo from './img/logo.svg'
 
-export default class AuthPage extends PureComponent {
+export class AuthPage extends PureComponent {
+  constructor (props) {
+    super(props)
+
+    this.state.isLogin = props.location.pathname === '/login'
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const nextIsLogin = nextProps.location.pathname === '/login'
+
+    if (this.state.isLogin !== nextIsLogin) {
+      this.setState({ isLogin: !this.state.isLogin })
+    }
+  }
+
   state = {
-    login: '',
+    email: '',
     password: ''
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+
+    const { isLogin, email, password } = this.state
+    const { loginRequest, registrationRequest } = this.props
+
+    isLogin
+      ? loginRequest({ email, password })
+      : registrationRequest({ email, password })
   }
 
   handleInputChange = ({ target }) => {
     this.setState({ [target.name]: target.value })
   }
 
-  renderNavPanel = isLogin => {
-    return isLogin ? (
+  renderNavPanel = () => {
+    return this.state.isLogin ? (
       <p className="registration">
         Впервый на сайте?{' '}
         <Link to="/registration" className="registration-link">
@@ -35,8 +62,6 @@ export default class AuthPage extends PureComponent {
   }
 
   render () {
-    const isLogin = this.props.location.pathname === '/login'
-
     return (
       <main className="AuthPage">
         <Particles className="particles-bg" params={ParticlesParams} />
@@ -47,12 +72,12 @@ export default class AuthPage extends PureComponent {
           width="243"
           height="88"
         />
-        <form className="form" action="/login">
+        <form className="form" onSubmit={this.handleSubmit}>
           <input
             className="input input_username"
-            type="text"
-            name="login"
-            placeholder="login"
+            type="email"
+            name="email"
+            placeholder="e-mail"
             onChange={this.handleInputChange}
           />
           <input
@@ -63,11 +88,18 @@ export default class AuthPage extends PureComponent {
             onChange={this.handleInputChange}
           />
           <button className="button">
-            {isLogin ? 'Войти' : 'Зарегистрироваться'}
+            {this.state.isLogin ? 'Войти' : 'Зарегистрироваться'}
           </button>
         </form>
-        {this.renderNavPanel(isLogin)}
+        {this.renderNavPanel()}
       </main>
     )
   }
 }
+
+const mapDispatchToProps = {
+  loginRequest,
+  registrationRequest
+}
+
+export default connect(null, mapDispatchToProps)(AuthPage)
