@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Switch from 'react-router-dom/Switch'
-import Route from 'react-router-dom/Route'
 import withRouter from 'react-router-dom/withRouter'
-import AuthPage from '../AuthPage'
-import NotFoundPage from '../NotFoundPage'
+
+import PublicRouter from './PublicRouter'
+import PrivateRouter from './PrivateRouter'
 
 export class AppRouter extends Component {
   render () {
-    return (
-      <Switch>
-        <Route path="/login" component={AuthPage} />
-        <Route path="/registration" component={AuthPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    )
+    return this.props.isAuthorized ? <PrivateRouter /> : <PublicRouter />
   }
 }
 

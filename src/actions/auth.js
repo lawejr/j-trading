@@ -18,6 +18,6 @@ export const {
     REGISTRATION_REQUEST: null,
     REGISTRATION_SUCCESS: null,
     REGISTRATION_FAILURE: null,
-    logout: null
+    LOGOUT: null
   }
 })

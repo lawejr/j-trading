@@ -21,6 +21,8 @@ export class AuthPage extends PureComponent {
     if (this.state.isLogin !== nextIsLogin) {
       this.setState({ isLogin: !this.state.isLogin })
     }
+
+    this.props.history.push('/profile')
   }
 
   state = {
