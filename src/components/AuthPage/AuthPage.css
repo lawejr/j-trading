@@ -22,6 +22,10 @@
   margin-bottom: 35px;
 }
 
+.AuthPage .error-message {
+  color: rgb(255, 0, 60);
+}
+
 .AuthPage .form {
   width: 438px;
   background-color: #fff;

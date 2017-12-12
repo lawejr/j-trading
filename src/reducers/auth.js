@@ -1,13 +1,33 @@
 import handleActions from 'redux-actions/es/handleActions'
-import { loginSuccess, registrationSuccess, logout } from '../actions/auth'
+import {
+  loginSuccess,
+  loginFailure,
+  registrationSuccess,
+  registrationFailure,
+  logout
+} from '../actions/auth'
 
 export default handleActions(
   {
-    [loginSuccess]: () => ({ isAuthorized: true }),
-    [registrationSuccess]: () => ({ isAuthorized: true }),
-    [logout]: () => ({ isAuthorized: false })
+    [loginSuccess]: () => ({ isAuthorized: true, error: null }),
+    [loginFailure]: (state, { payload: { data: { message } } }) => {
+      return {
+        isAuthorized: false,
+        error: message
+      }
+    },
+    [registrationSuccess]: () => ({ isAuthorized: true, error: null }),
+    [registrationFailure]: (state, { payload: { data: { message } } }) => ({
+      isAuthorized: false,
+      error: message
+    }),
+    [logout]: () => ({ isAuthorized: false, error: null })
   },
-  { isAuthorized: false }
+  {
+    isAuthorized: false,
+    error: null
+  }
 )
 
 export const getIsAuthorized = state => state.auth.isAuthorized
+export const getAuthError = state => state.auth.error

@@ -4,6 +4,7 @@ import Link from 'react-router-dom/Link'
 import Particles from 'react-particles-js'
 
 import { loginRequest, registrationRequest } from '../../actions/auth'
+import { getAuthError } from '../../reducers/auth'
 import ParticlesParams from './particles-params'
 import './AuthPage.css'
 import logo from './img/logo.svg'
@@ -21,8 +22,6 @@ export class AuthPage extends PureComponent {
     if (this.state.isLogin !== nextIsLogin) {
       this.setState({ isLogin: !this.state.isLogin })
     }
-
-    this.props.history.push('/profile')
   }
 
   state = {
@@ -64,6 +63,8 @@ export class AuthPage extends PureComponent {
   }
 
   render () {
+    const { error } = this.props
+
     return (
       <main className="AuthPage">
         <Particles className="particles-bg" params={ParticlesParams} />
@@ -74,6 +75,7 @@ export class AuthPage extends PureComponent {
           width="243"
           height="88"
         />
+        {error && <p className="error-message">{error}</p>}
         <form className="form" onSubmit={this.handleSubmit}>
           <input
             className="input input_username"
@@ -99,9 +101,11 @@ export class AuthPage extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({ error: getAuthError(state) })
+
 const mapDispatchToProps = {
   loginRequest,
   registrationRequest
 }
 
-export default connect(null, mapDispatchToProps)(AuthPage)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage)
