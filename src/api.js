@@ -3,7 +3,8 @@ import axios from 'axios'
 axios.defaults.headers.post['Accept'] = '*/*'
 
 const instance = axios.create({
-  baseURL: 'http://lorem-ipsum.online/'
+  baseURL: 'http://lorem-ipsum.online/',
+  headers: { Accept: '*/*' }
 })
 
 const jsonInstance = axios.create({
@@ -34,3 +35,6 @@ export const registration = ({ email, password }) =>
       if (response.data.result === 'error') return Promise.reject(response)
       return response
     })
+
+export const candles = (symbol, offset) =>
+  instance.get('/candles', { params: { symbol, offset } })
