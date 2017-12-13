@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions'
 
-export const {
+const {
   auth: {
     loginRequest,
     loginSuccess,
@@ -21,3 +21,13 @@ export const {
     LOGOUT: null
   }
 })
+
+export {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  registrationRequest,
+  registrationSuccess,
+  registrationFailure,
+  logout
+}
