@@ -8,6 +8,7 @@ import {
   call
 } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
+
 import { loginSuccess, logout } from '../actions/auth'
 import { getOffset } from '../reducers/currency'
 import {
@@ -48,7 +49,9 @@ export function* currencyWatch () {
       yield cancel(currencyTask)
       currencyTask = undefined
     }
-    if (action.type !== logout.toString()) { currencyTask = yield fork(fetchCurrencyFlow) }
+    if (action.type !== logout.toString()) {
+      currencyTask = yield fork(fetchCurrencyFlow)
+    }
   }
 }
 

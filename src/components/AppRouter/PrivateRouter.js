@@ -1,7 +1,5 @@
 import React from 'react'
-import Switch from 'react-router-dom/Switch'
-import Route from 'react-router-dom/Route'
-import Redirect from 'react-router-dom/Redirect'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import ProfilePage from '../ProfilePage'
 import NotFoundPage from '../NotFoundPage'

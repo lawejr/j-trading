@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import Link from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import Particles from 'react-particles-js'
 
 import { loginRequest, registrationRequest } from '../../actions/auth'

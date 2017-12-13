@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+
 import { authFlow, registrationWatch, loginWatch } from './auth'
 
 export default function* () {

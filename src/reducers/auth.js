@@ -1,4 +1,4 @@
-import handleActions from 'redux-actions/es/handleActions'
+import { handleActions } from 'redux-actions'
 import {
   loginSuccess,
   loginFailure,

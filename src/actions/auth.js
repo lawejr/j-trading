@@ -1,4 +1,4 @@
-import createActions from 'redux-actions/es/createActions'
+import { createActions } from 'redux-actions'
 
 export const {
   auth: {
