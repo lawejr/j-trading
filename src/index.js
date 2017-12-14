@@ -8,6 +8,8 @@ import AppRouter from './components/AppRouter'
 import 'sanitize.css'
 import './index.css'
 
+window.Chart = require('chart.js')
+
 const store = createStore()
 
 ReactDOM.render(
