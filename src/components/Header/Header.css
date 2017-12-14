@@ -1,0 +1,37 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 80px;
+  color: #fff;
+  background-color: #2a2c2e;
+  padding: 0 calc(50% - 660px) 0 calc(50% - 700px);
+}
+
+.Header .currency-menu {
+  display: flex;
+  align-self: stretch;
+}
+
+.Header .currency-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 18px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px 40px;
+}
+
+.Header .currency-link:hover,
+.Header .currency-link.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.Header .currency-link:not(:last-child) {
+  margin-right: 20px;
+}
+
+.Header .currency-name {
+  font-weight: bold;
+}

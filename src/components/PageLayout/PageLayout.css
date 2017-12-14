@@ -1,0 +1,9 @@
+.PageLayout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 1280px;
+  min-height: 100%;
+  background: #f2f3f5 url('./img/pattern.svg') no-repeat 50%;
+  background-size: cover;
+}

@@ -7,8 +7,8 @@ import NotFoundPage from '../NotFoundPage'
 export default function PrivateRouter () {
   return (
     <Switch>
-      <Route path="/trade" component={TradePage} />
       <Route path="/trade/:type" component={TradePage} />
+      <Route path="/trade" component={TradePage} />
       <Redirect
         // from={['/login', '/registration', '/', '/trade']}
         to="/trade/btc"
