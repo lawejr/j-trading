@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 
 import Header from '../Header'
-import Footer from '../Footer'
+// import Footer from '../Footer'
 import './PageLayout.css'
 
 export default class PageLayout extends PureComponent {
@@ -10,7 +10,7 @@ export default class PageLayout extends PureComponent {
       <div className="PageLayout">
         <Header />
         {this.props.children}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     )
   }

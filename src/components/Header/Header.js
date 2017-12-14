@@ -12,7 +12,7 @@ export default class Header extends Component {
           <img
             className="logo-img"
             src={logo}
-            alt="J-trading"
+            alt="J-Trading"
             width="210"
             height="80"
           />
@@ -24,7 +24,7 @@ export default class Header extends Component {
           </NavLink>
           <NavLink className="currency-link" to="/trade/eth">
             4277,5<br />
-            <b className="currency-name">1 btc</b>
+            <b className="currency-name">1 eth</b>
           </NavLink>
         </nav>
       </header>
