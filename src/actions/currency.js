@@ -8,7 +8,7 @@ const {
     fetchEthSuccess,
     selectBtc,
     selectEth,
-    selectOffsest
+    selectOffset
   }
 } = createActions({
   CURRENCY: {
@@ -29,5 +29,5 @@ export {
   fetchEthSuccess,
   selectBtc,
   selectEth,
-  selectOffsest
+  selectOffset
 }

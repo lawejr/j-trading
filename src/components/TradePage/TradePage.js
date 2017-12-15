@@ -1,11 +1,20 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { LineChart } from 'react-chartkick'
 
+import { selectOffset } from '../../actions/currency'
+import { getOffset } from '../../reducers/currency'
 import PageLayout from '../PageLayout'
 import './TradePage.css'
 
-export default class TradePage extends PureComponent {
+export class TradePage extends PureComponent {
+  handleChangeCheckbox = e => {
+    this.props.selectOffset(e.target.value)
+  }
+
   render () {
+    const { offset } = this.props
+
     return (
       <PageLayout>
         <main className="TradePage">
@@ -19,6 +28,8 @@ export default class TradePage extends PureComponent {
                   id="offset1h"
                   className="offset-filter-input"
                   value="1h"
+                  checked={offset === '1h'}
+                  onChange={this.handleChangeCheckbox}
                 />
                 <label htmlFor="offset1h" className="offset-filter">
                   1ч
@@ -29,6 +40,8 @@ export default class TradePage extends PureComponent {
                   id="offset2h"
                   className="offset-filter-input"
                   value="2h"
+                  checked={offset === '2h'}
+                  onChange={this.handleChangeCheckbox}
                 />
                 <label htmlFor="offset2h" className="offset-filter">
                   2ч
@@ -39,6 +52,8 @@ export default class TradePage extends PureComponent {
                   id="offset3h"
                   className="offset-filter-input"
                   value="3h"
+                  checked={offset === '3h'}
+                  onChange={this.handleChangeCheckbox}
                 />
                 <label htmlFor="offset3h" className="offset-filter">
                   3ч
@@ -49,6 +64,8 @@ export default class TradePage extends PureComponent {
                   id="offset4h"
                   className="offset-filter-input"
                   value="4h"
+                  checked={offset === '4h'}
+                  onChange={this.handleChangeCheckbox}
                 />
                 <label htmlFor="offset4h" className="offset-filter">
                   4ч
@@ -59,6 +76,8 @@ export default class TradePage extends PureComponent {
                   id="offset5h"
                   className="offset-filter-input"
                   value="5h"
+                  checked={offset === '5h'}
+                  onChange={this.handleChangeCheckbox}
                 />
                 <label htmlFor="offset5h" className="offset-filter">
                   5ч
@@ -78,3 +97,13 @@ export default class TradePage extends PureComponent {
     )
   }
 }
+
+const masStateToProps = state => ({
+  offset: getOffset(state)
+})
+
+const mapDispatchToProps = {
+  selectOffset
+}
+
+export default connect(masStateToProps, mapDispatchToProps)(TradePage)

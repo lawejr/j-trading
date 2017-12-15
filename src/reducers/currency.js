@@ -6,18 +6,26 @@ import {
   fetchEthSuccess,
   selectBtc,
   selectEth,
-  selectOffsest
+  selectOffset
 } from '../actions/currency'
 
 export default handleActions(
   {
-    [fetchBtcRequest]: () => ({ isBtcLoading: false }),
-    [fetchEthRequest]: () => ({ isEthLoading: false }),
-    [fetchBtcSuccess]: ({ payload }) => ({ isBtcLoading: true, btc: payload }),
-    [fetchEthSuccess]: ({ payload }) => ({ isEthLoading: true, eth: payload }),
-    [selectBtc]: () => ({ selected: 'btc', error: null }),
-    [selectEth]: () => ({ selected: 'eth', error: null }),
-    [selectOffsest]: ({ payload }) => ({ offset: payload })
+    [fetchBtcRequest]: state => ({ ...state, isBtcLoading: false }),
+    [fetchEthRequest]: state => ({ ...state, isEthLoading: false }),
+    [fetchBtcSuccess]: (state, { payload }) => ({
+      ...state,
+      isBtcLoading: true,
+      btc: payload
+    }),
+    [fetchEthSuccess]: (state, { payload }) => ({
+      ...state,
+      isEthLoading: true,
+      eth: payload
+    }),
+    [selectBtc]: state => ({ ...state, selected: 'btc', error: null }),
+    [selectEth]: state => ({ ...state, selected: 'eth', error: null }),
+    [selectOffset]: (state, { payload }) => ({ ...state, offset: payload })
   },
   {
     selected: 'btc',
@@ -30,3 +38,4 @@ export default handleActions(
 )
 
 export const getSelectedCurrency = state => state.currency.selected
+export const getOffset = state => state.currency.offset

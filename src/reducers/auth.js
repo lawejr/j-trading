@@ -10,12 +10,10 @@ import {
 export default handleActions(
   {
     [loginSuccess]: () => ({ isAuthorized: true, error: null }),
-    [loginFailure]: (state, { payload: { data: { message } } }) => {
-      return {
-        isAuthorized: false,
-        error: message
-      }
-    },
+    [loginFailure]: (state, { payload: { data: { message } } }) => ({
+      isAuthorized: false,
+      error: message
+    }),
     [registrationSuccess]: () => ({ isAuthorized: true, error: null }),
     [registrationFailure]: (state, { payload: { data: { message } } }) => ({
       isAuthorized: false,
