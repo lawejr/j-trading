@@ -2,18 +2,63 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { LineChart } from 'react-chartkick'
 
-import { selectOffset } from '../../actions/currency'
-import { getOffset } from '../../reducers/currency'
+import { selectOffset, selectCurrency } from '../../actions/currency'
+import {
+  getOffset,
+  getSelectedCurrency,
+  getBtc,
+  getEth
+} from '../../reducers/currency'
 import PageLayout from '../PageLayout'
 import './TradePage.css'
 
 export class TradePage extends PureComponent {
+  componentDidMount () {
+    const {
+      selectCurrency,
+      selectedCurrency,
+      match: { params: { type } }
+    } = this.props
+
+    if (type && selectedCurrency !== type) {
+      selectCurrency(type)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { selectCurrency, match: { params: { type } } } = this.props
+    const newType = nextProps.match.params.type
+    console.log(type, newType)
+
+    if (type !== newType) {
+      selectCurrency(newType)
+    }
+  }
+
   handleChangeCheckbox = e => {
     this.props.selectOffset(e.target.value)
   }
 
   render () {
-    const { offset } = this.props
+    const { selectedCurrency, offset, btcData, ethData } = this.props
+    const stateData = {
+      btc: btcData,
+      eth: ethData
+    }
+    const chartData = [
+      { name: 'Покупка', data: {} },
+      { name: 'Продажа', data: {} }
+    ]
+    let chartMin
+    let chartMax
+
+    stateData[selectedCurrency].forEach(point => {
+      chartData[0].data[point.mts] = point.purchase
+      chartData[1].data[point.mts] = point.sell
+
+      if (!chartMin || chartMin > point.purchase) chartMin = point.purchase
+      if (!chartMax || chartMax < point.sell) chartMax = point.sell
+    })
 
     return (
       <PageLayout>
@@ -84,9 +129,9 @@ export class TradePage extends PureComponent {
                 </label>
               </section>
               <LineChart
-                data={{ '2017-05-13': 2, '2017-05-14': 5 }}
-                min={0}
-                max={10}
+                data={chartData}
+                min={chartMin}
+                max={chartMax}
                 width={720}
                 height={290}
               />
@@ -99,11 +144,15 @@ export class TradePage extends PureComponent {
 }
 
 const masStateToProps = state => ({
-  offset: getOffset(state)
+  offset: getOffset(state),
+  selectedCurrency: getSelectedCurrency(state),
+  btcData: getBtc(state),
+  ethData: getEth(state)
 })
 
 const mapDispatchToProps = {
-  selectOffset
+  selectOffset,
+  selectCurrency
 }
 
 export default connect(masStateToProps, mapDispatchToProps)(TradePage)

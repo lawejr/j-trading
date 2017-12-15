@@ -12,8 +12,7 @@ import { delay } from 'redux-saga'
 import { loginSuccess, logout } from '../actions/auth'
 import { getOffset } from '../reducers/currency'
 import {
-  selectBtc,
-  selectEth,
+  selectCurrency,
   fetchBtcRequest,
   fetchEthRequest,
   fetchBtcSuccess,
@@ -40,8 +39,7 @@ export function* currencyWatch () {
     const action = yield take([
       loginSuccess,
       logout,
-      selectBtc,
-      selectEth,
+      selectCurrency,
       selectOffset
     ])
 
