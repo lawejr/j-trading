@@ -5,7 +5,8 @@ import {
   fetchBtcSuccess,
   fetchEthSuccess,
   selectBtc,
-  selectEth
+  selectEth,
+  selectOffsest
 } from '../actions/currency'
 
 export default handleActions(
@@ -15,7 +16,8 @@ export default handleActions(
     [fetchBtcSuccess]: ({ payload }) => ({ isBtcLoading: true, btc: payload }),
     [fetchEthSuccess]: ({ payload }) => ({ isEthLoading: true, eth: payload }),
     [selectBtc]: () => ({ selected: 'btc', error: null }),
-    [selectEth]: () => ({ selected: 'eth', error: null })
+    [selectEth]: () => ({ selected: 'eth', error: null }),
+    [selectOffsest]: ({ payload }) => ({ offset: payload })
   },
   {
     selected: 'btc',

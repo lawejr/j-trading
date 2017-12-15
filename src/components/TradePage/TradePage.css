@@ -6,9 +6,45 @@
   margin: 0 auto;
 }
 
+.TradePage .chart {
+  width: 720px;
+}
+
+.TradePage .chart-wrapper {
+  border: 2px solid #f2f3f5;
+}
+
 .TradePage .section-title {
   font-size: 24px;
   font-weight: 500;
   line-height: 1.17;
   color: #1b1b1b;
+}
+
+.TradePage .filters {
+  display: flex;
+  justify-content: flex-start;
+  background-color: #f2f3f5;
+  padding: 7px 20px;
+}
+
+.TradePage .offset-filter-input {
+  display: none;
+}
+
+.TradePage .offset-filter {
+  font-size: 16px;
+  font-weight: 500;
+  color: #81989e;
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+
+.TradePage .offset-filter:not(:last-child) {
+  margin-right: 10px;
+}
+
+.TradePage .offset-filter-input:checked + .offset-filter {
+  color: #fff;
+  background-color: #4eb7e0;
 }
