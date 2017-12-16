@@ -55,3 +55,7 @@ export const getBtc = state => state.currency.btc
 export const getEth = state => state.currency.eth
 export const getIsloading = state =>
   state.currency.isBtcLoading || state.currency.isEthLoading
+export const getBtcSellCourse = state =>
+  state.currency.btc[0] ? state.currency.btc[0].sell : 0
+export const getEthSellCourse = state =>
+  state.currency.eth[0] ? state.currency.eth[0].sell : 0
