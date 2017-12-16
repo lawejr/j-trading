@@ -1,4 +1,6 @@
 .TradePage {
+  display: flex;
+  justify-content: space-between;
   flex: 1;
   background-color: #fff;
   width: 1280px;
