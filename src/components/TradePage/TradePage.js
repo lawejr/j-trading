@@ -7,8 +7,10 @@ import {
   getOffset,
   getSelectedCurrency,
   getBtc,
-  getEth
+  getEth,
+  getIsloading
 } from '../../reducers/currency'
+import Spinner from '../Spinner'
 import PageLayout from '../PageLayout'
 import './TradePage.css'
 
@@ -28,7 +30,6 @@ export class TradePage extends PureComponent {
   componentWillReceiveProps (nextProps) {
     const { selectCurrency, match: { params: { type } } } = this.props
     const newType = nextProps.match.params.type
-    console.log(type, newType)
 
     if (type !== newType) {
       selectCurrency(newType)
@@ -37,6 +38,36 @@ export class TradePage extends PureComponent {
 
   handleChangeCheckbox = e => {
     this.props.selectOffset(e.target.value)
+  }
+
+  renderOffsets = selectedOffset => {
+    const offsets = {
+      '2h': '2ч',
+      '4h': '4ч',
+      '8h': '8ч',
+      '1d': '1д',
+      '7d': '7д'
+    }
+
+    return Object.keys(offsets).map(key => [
+      <input
+        type="radio"
+        name="offset"
+        id={'offset' + key}
+        className="offset-filter-input"
+        value={key}
+        checked={selectedOffset === key}
+        onChange={this.handleChangeCheckbox}
+        key={'input' + key}
+      />,
+      <label
+        htmlFor={'offset' + key}
+        className="offset-filter"
+        key={'label' + key}
+      >
+        {offsets[key]}
+      </label>
+    ])
   }
 
   render () {
@@ -53,8 +84,8 @@ export class TradePage extends PureComponent {
     let chartMax
 
     stateData[selectedCurrency].forEach(point => {
-      chartData[0].data[point.mts] = point.purchase
-      chartData[1].data[point.mts] = point.sell
+      chartData[0].data[new Date(point.mts)] = point.purchase
+      chartData[1].data[new Date(point.mts)] = point.sell
 
       if (!chartMin || chartMin > point.purchase) chartMin = point.purchase
       if (!chartMax || chartMax < point.sell) chartMax = point.sell
@@ -67,74 +98,19 @@ export class TradePage extends PureComponent {
             <h2 className="section-title">Окно графика</h2>
             <div className="chart-wrapper">
               <section className="filters">
-                <input
-                  type="radio"
-                  name="offset"
-                  id="offset1h"
-                  className="offset-filter-input"
-                  value="1h"
-                  checked={offset === '1h'}
-                  onChange={this.handleChangeCheckbox}
-                />
-                <label htmlFor="offset1h" className="offset-filter">
-                  1ч
-                </label>
-                <input
-                  type="radio"
-                  name="offset"
-                  id="offset2h"
-                  className="offset-filter-input"
-                  value="2h"
-                  checked={offset === '2h'}
-                  onChange={this.handleChangeCheckbox}
-                />
-                <label htmlFor="offset2h" className="offset-filter">
-                  2ч
-                </label>
-                <input
-                  type="radio"
-                  name="offset"
-                  id="offset3h"
-                  className="offset-filter-input"
-                  value="3h"
-                  checked={offset === '3h'}
-                  onChange={this.handleChangeCheckbox}
-                />
-                <label htmlFor="offset3h" className="offset-filter">
-                  3ч
-                </label>
-                <input
-                  type="radio"
-                  name="offset"
-                  id="offset4h"
-                  className="offset-filter-input"
-                  value="4h"
-                  checked={offset === '4h'}
-                  onChange={this.handleChangeCheckbox}
-                />
-                <label htmlFor="offset4h" className="offset-filter">
-                  4ч
-                </label>
-                <input
-                  type="radio"
-                  name="offset"
-                  id="offset5h"
-                  className="offset-filter-input"
-                  value="5h"
-                  checked={offset === '5h'}
-                  onChange={this.handleChangeCheckbox}
-                />
-                <label htmlFor="offset5h" className="offset-filter">
-                  5ч
-                </label>
+                {this.renderOffsets(offset)}
               </section>
-              <LineChart
-                data={chartData}
-                min={chartMin}
-                max={chartMax}
-                width={720}
-                height={290}
-              />
+              {this.props.isLoading ? (
+                <Spinner />
+              ) : (
+                <LineChart
+                  data={chartData}
+                  min={chartMin}
+                  max={chartMax}
+                  width={720}
+                  height={290}
+                />
+              )}
             </div>
           </section>
         </main>
@@ -147,7 +123,8 @@ const masStateToProps = state => ({
   offset: getOffset(state),
   selectedCurrency: getSelectedCurrency(state),
   btcData: getBtc(state),
-  ethData: getEth(state)
+  ethData: getEth(state),
+  isLoading: getIsloading(state)
 })
 
 const mapDispatchToProps = {
