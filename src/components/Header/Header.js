@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 
+import { getBtcSellCourse, getEthSellCourse } from '../../reducers/currency'
 import './Header.css'
 import logo from './img/logo_white.svg'
 
-export default class Header extends Component {
+export class Header extends Component {
   render () {
+    const { btcCourse, ethCourse } = this.props
+
     return (
       <header className="Header">
         <Link className="logo-link" to="/">
@@ -19,11 +23,13 @@ export default class Header extends Component {
         </Link>
         <nav className="currency-menu">
           <NavLink className="currency-link" to="/trade/btc">
-            4277,5<br />
+            {btcCourse}
+            <br />
             <b className="currency-name">1 btc</b>
           </NavLink>
           <NavLink className="currency-link" to="/trade/eth">
-            4277,5<br />
+            {ethCourse}
+            <br />
             <b className="currency-name">1 eth</b>
           </NavLink>
         </nav>
@@ -31,3 +37,10 @@ export default class Header extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  btcCourse: getBtcSellCourse(state),
+  ethCourse: getEthSellCourse(state)
+})
+
+export default connect(mapStateToProps)(Header)
