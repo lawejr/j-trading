@@ -23,7 +23,7 @@ import {
 } from '../actions/currency'
 import { candles } from '../api'
 
-function* fetchCurrencyFlow () {
+export function* fetchCurrencyFlow () {
   while (true) {
     const offset = yield select(getOffset)
     yield put(fetchBtcRequest(offset))
@@ -53,7 +53,7 @@ export function* currencyWatch () {
   }
 }
 
-function* fetchBtcFlow (action) {
+export function* fetchBtcFlow (action) {
   try {
     const response = yield call(candles, 'btc', action.payload)
     yield put(fetchBtcSuccess(response.data.result))
@@ -62,7 +62,7 @@ function* fetchBtcFlow (action) {
   }
 }
 
-function* fetchEthFlow (action) {
+export function* fetchEthFlow (action) {
   try {
     const response = yield call(candles, 'eth', action.payload)
     yield put(fetchEthSuccess(response.data.result))
