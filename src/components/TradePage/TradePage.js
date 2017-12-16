@@ -12,6 +12,7 @@ import {
 } from '../../reducers/currency'
 import Spinner from '../Spinner'
 import PageLayout from '../PageLayout'
+import TradeOperations from '../TradeOperations'
 import './TradePage.css'
 
 export class TradePage extends PureComponent {
@@ -94,6 +95,7 @@ export class TradePage extends PureComponent {
     return (
       <PageLayout>
         <main className="TradePage">
+          <TradeOperations />
           <section className="chart">
             <h2 className="section-title">Окно графика</h2>
             <div className="chart-wrapper">

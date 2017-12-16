@@ -9,7 +9,13 @@ const {
     fetchEthSuccess,
     fetchEthFailure,
     selectCurrency,
-    selectOffset
+    selectOffset,
+    buyCurrencyRequest,
+    sellCurrencyRequest,
+    buyCurrencySuccess,
+    sellCurrencySuccess,
+    buyCurrencyFailure,
+    sellCurrencyFailure
   }
 } = createActions({
   CURRENCY: {
@@ -20,7 +26,13 @@ const {
     FETCH_ETH_SUCCESS: null,
     FETCH_ETH_FAILURE: null,
     SELECT_CURRENCY: null,
-    SELECT_OFFSET: null
+    SELECT_OFFSET: null,
+    BUY_CURRENCY_REQUEST: null,
+    SELL_CURRENCY_REQUEST: null,
+    BUY_CURRENCY_SUCCESS: null,
+    SELL_CURRENCY_SUCCESS: null,
+    BUY_CURRENCY_FAILURE: null,
+    SELL_CURRENCY_FAILURE: null
   }
 })
 
@@ -32,5 +44,11 @@ export {
   fetchEthSuccess,
   fetchEthFailure,
   selectCurrency,
-  selectOffset
+  selectOffset,
+  buyCurrencyRequest,
+  sellCurrencyRequest,
+  buyCurrencySuccess,
+  sellCurrencySuccess,
+  buyCurrencyFailure,
+  sellCurrencyFailure
 }

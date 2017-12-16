@@ -59,3 +59,7 @@ export const getBtcSellCourse = state =>
   state.currency.btc[0] ? state.currency.btc[0].sell : 0
 export const getEthSellCourse = state =>
   state.currency.eth[0] ? state.currency.eth[0].sell : 0
+export const getBtcPurchaseCourse = state =>
+  state.currency.btc[0] ? state.currency.btc[0].purchase : 0
+export const getEthPurchaseCourse = state =>
+  state.currency.eth[0] ? state.currency.eth[0].purchase : 0

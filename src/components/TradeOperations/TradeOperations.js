@@ -3,28 +3,38 @@ import { compose, withProps, mapProps } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
-  getCurrentBtcSell,
-  getCurrentEthSell,
-  getCurrentBtcPurchase,
-  getCurrentEthPurchase
+  getBtcSellCourse,
+  getEthSellCourse,
+  getBtcPurchaseCourse,
+  getEthPurchaseCourse
 } from '../../reducers/currency'
+import { fetchWalletRequest } from '../../actions/wallet'
 import { buyCurrencyRequest, sellCurrencyRequest } from '../../actions/currency'
 import styled from 'styled-components'
-import { getError } from '../../reducers/wallet'
+import {
+  getWalletUsd,
+  getWalletBtc,
+  getWalletEth,
+  getError
+} from '../../reducers/wallet'
 
 const enhance = compose(
   withRouter,
   connect(
     state => ({
-      currentBtcPurchase: getCurrentBtcPurchase(state),
-      currentBtcSell: getCurrentBtcSell(state),
-      currentEthPurchase: getCurrentEthPurchase(state),
-      currentEthSell: getCurrentEthSell(state),
+      currentBtcPurchase: getBtcPurchaseCourse(state),
+      currentBtcSell: getBtcSellCourse(state),
+      currentEthPurchase: getEthPurchaseCourse(state),
+      currentEthSell: getEthSellCourse(state),
+      walletUsd: getWalletUsd(state),
+      walletBtc: getWalletBtc(state),
+      walletEth: getWalletEth(state),
       error: getError(state)
     }),
     {
       buyCurrencyRequest,
-      sellCurrencyRequest
+      sellCurrencyRequest,
+      fetchWalletRequest
     }
   ),
   withProps(({ location }) => ({
@@ -34,16 +44,24 @@ const enhance = compose(
     ({
       buyCurrencyRequest,
       sellCurrencyRequest,
+      fetchWalletRequest,
       currencyName,
       currentBtcPurchase,
       currentBtcSell,
       currentEthPurchase,
       currentEthSell,
+      walletUsd,
+      walletBtc,
+      walletEth,
       error
     }) => ({
       currencyName,
       buyCurrencyRequest,
       sellCurrencyRequest,
+      fetchWalletRequest,
+      walletUsd,
+      walletBtc,
+      walletEth,
       error,
       sell: currencyName === 'btc' ? currentBtcSell : currentEthSell,
       purchase: currencyName === 'btc' ? currentBtcPurchase : currentEthPurchase
@@ -104,18 +122,59 @@ const ButtonPurchase = Button.extend`
   }
 `
 
+const WalletCurrency = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  font-size: 1.2em;
+  align-items: center;
+`
+const CurrencyQuantity = styled.div`
+  background-color: #404243;
+  border-radius: 4px;
+  padding: 10px;
+  width: 218px;
+  display: flex;
+  justify-content: center;
+  ilign-items: center;
+  margin-right: 20px;
+  font-wheight: 600;
+`
+const IntegerPart = styled.span`
+  color: #fff;
+  flex: 1;
+  text-align: right;
+`
+
+const DecimalPart = styled.span`
+  color: #8a8a8a;
+  flex: 1;
+`
+
 class TradeOperations extends PureComponent {
   state = {
     inputFiat: 1,
     inputSell: this.props.sell,
     inputPurchase: this.props.purchase,
-    currentInput: 'inputFiat'
+    currentInput: 'inputFiat',
+    usd: this.props.walletUsd,
+    btc: this.props.walletBtc,
+    eth: this.props.walletEth
+  }
+
+  componentDidMount () {
+    this.props.fetchWalletRequest()
   }
 
   componentWillReceiveProps (nextProps) {
-    const { sell, purchase } = nextProps
+    const { sell, purchase, walletUsd, walletBtc, walletEth } = nextProps
     const { currentInput } = this.state
+
     this.changeInputs(currentInput, sell, purchase)
+    this.setState({
+      usd: walletUsd,
+      btc: walletBtc,
+      eth: walletEth
+    })
   }
 
   handleChange = event => {
@@ -186,11 +245,31 @@ class TradeOperations extends PureComponent {
     }
   }
 
+  getDecimal = num => {
+    let str = '' + num
+    const zeroPos = str.indexOf('.')
+    if (zeroPos === -1) return 0
+
+    return str.slice(zeroPos + 1)
+  }
+
   render () {
     const { error, currencyName } = this.props
     const { inputFiat, inputSell, inputPurchase } = this.state
     return (
       <Container>
+        <section>
+          <h2>Ваш счёт</h2>
+          {['usd', 'btc', 'eth'].map(el => (
+            <WalletCurrency key={el}>
+              <CurrencyQuantity>
+                <IntegerPart>{Math.floor(this.state[el]) + '.'}</IntegerPart>
+                <DecimalPart>{this.getDecimal(this.state[el])}</DecimalPart>
+              </CurrencyQuantity>
+              {el.toUpperCase()}
+            </WalletCurrency>
+          ))}
+        </section>
         <h2>Покупка/продажа</h2>
         <InputWrapper>
           <Input
