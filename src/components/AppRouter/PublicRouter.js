@@ -9,7 +9,7 @@ export default function PublicRouter () {
     <Switch>
       <Route path="/login" component={AuthPage} />
       <Route path="/registration" component={AuthPage} />
-      <Redirect from="/" to="login" />
+      <Redirect from="/" to="/login" />
       <Route component={NotFoundPage} />
     </Switch>
   )
