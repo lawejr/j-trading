@@ -75,7 +75,13 @@ export class AuthPage extends PureComponent {
           width="243"
           height="88"
         />
-        {error && <p className="error-message">{error}</p>}
+        {error && (
+          <p className="error-message">
+            {error.email
+              ? error.email[0]
+              : 'Произошла ошибка. Попробуйте еще раз.'}
+          </p>
+        )}
         <form className="form" onSubmit={this.handleSubmit}>
           <input
             className="input input_username"
